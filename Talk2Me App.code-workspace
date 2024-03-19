@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "Talk2MeNative",
+			"path": "../Talk2MeNative"
+		}
+	],
+	"settings": {
+		"files.autoSave": "onFocusChange"
+	}
+}

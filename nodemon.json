@@ -1,0 +1,6 @@
+{
+  "exec": "ts-node --require ./src/telemetry.ts ./src/index.ts",
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["src/build/*"]
+}

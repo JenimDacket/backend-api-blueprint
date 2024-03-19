@@ -1,0 +1,151 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ExampleTypes": {
+				"type": "string",
+				"enum": [
+					"new",
+					"old",
+					"interesting",
+					"helpful",
+					"practice"
+				]
+			},
+			"Example": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/ExampleTypes"
+					},
+					"createdBy": {
+						"type": "number",
+						"format": "double",
+						"nullable": true,
+						"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+					},
+					"name": {
+						"type": "string",
+						"minLength": 1,
+						"maxLength": 200
+					},
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "Id is a string rather than bigint, since JSON doesn't support bigints.",
+						"pattern": "^\\d{1,19}$"
+					}
+				},
+				"required": [
+					"type",
+					"name"
+				],
+				"type": "object"
+			},
+			"ApiErrorResponse": {
+				"properties": {
+					"details": {
+						"properties": {},
+						"additionalProperties": {
+							"properties": {
+								"value": {
+									"type": "string"
+								},
+								"message": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"message"
+							],
+							"type": "object"
+						},
+						"type": "object"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"message"
+				],
+				"type": "object"
+			},
+			"NewExampleReq": {
+				"properties": {
+					"oauthId": {
+						"type": "string"
+					},
+					"example": {
+						"$ref": "#/components/schemas/Example"
+					}
+				},
+				"required": [
+					"oauthId",
+					"example"
+				],
+				"type": "object"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "talk2meapi",
+		"version": "1.0.0",
+		"license": {
+			"name": "UNLICENSED"
+		},
+		"contact": {
+			"name": "JenimDacket ",
+			"email": "evan@excelmandarin.com"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/example": {
+			"post": {
+				"operationId": "NewExampleController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/Example"
+										},
+										{
+											"$ref": "#/components/schemas/ApiErrorResponse"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"description": "New example handler\r\nInserts new example into the database",
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/NewExampleReq"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
